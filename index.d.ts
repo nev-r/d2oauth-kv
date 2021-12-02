@@ -26,4 +26,4 @@ export declare function createOauthHttpClientKV(apiKey: string, client_id: strin
     };
     verbose?: boolean;
 }): HttpClient;
-export declare function setupTokenWithAuthCode(authorization_code: string, client_id: string, client_secret: string, kvFileLocation?: string): Promise<any>;
+export declare function setupTokenWithAuthCode(authorization_code: string, client_id: string, client_secret: string, kvFileLocation?: string): Promise<void>;
