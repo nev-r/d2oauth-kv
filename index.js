@@ -2,20 +2,22 @@ import Keyv from "keyv";
 import { KeyvFile } from "keyv-file";
 import { createOauthHttpClient, looksLikeBnetAuthToken, setupTokenWithAuthCode as stwac, } from "d2oauth-base";
 import "cross-fetch/dist/node-polyfill.js";
+const defaultPath = `./db/d2oauth.json`;
+const tokenStorageKey = "token";
 export function createOauthHttpClientKV(apiKey, client_id, client_secret, kvFileLocation = `./db/d2oauth.json`, options = {}) {
     const oauthStore = new Keyv({
         store: new KeyvFile({
             filename: kvFileLocation,
         }),
     });
-    return createOauthHttpClient(apiKey, client_id, client_secret, () => oauthStore.get("token"), (tm) => oauthStore.set("token", tm), options);
+    return createOauthHttpClient(apiKey, client_id, client_secret, () => oauthStore.get(tokenStorageKey), (tm) => oauthStore.set(tokenStorageKey, tm), options);
 }
 export async function setupTokenWithAuthCode(authorization_code, client_id, client_secret, kvFileLocation = `./db/d2oauth.json`) {
     const store = new KeyvFile({
         filename: kvFileLocation,
     });
     const oauthStore = new Keyv({ store });
-    await stwac(authorization_code, client_id, client_secret, (tm) => oauthStore.set("token", tm));
+    await stwac(authorization_code, client_id, client_secret, (tm) => oauthStore.set(tokenStorageKey, tm));
     await store.saveToDisk();
 }
 export async function injectExistingBungieNetToken(
@@ -37,9 +39,9 @@ forceOverwrite) {
         refresh_expires_at: Date.now() + token.refresh_expires_in * 1000,
     };
     // bail if there's already a token and overwrite isn't set
-    if ((await oauthStore.get("tokenMeta")) && !forceOverwrite)
+    if ((await oauthStore.get(tokenStorageKey)) && !forceOverwrite)
         return;
-    await oauthStore.set("tokenMeta", tokenMeta);
+    await oauthStore.set(tokenStorageKey, tokenMeta);
     await store.saveToDisk();
 }
 export async function isBungieNetTokenAlreadySet(kvFileLocation = `./db/d2oauth.json`) {
@@ -48,7 +50,7 @@ export async function isBungieNetTokenAlreadySet(kvFileLocation = `./db/d2oauth.
             filename: kvFileLocation,
         }),
     });
-    if (await oauthStore.get("tokenMeta"))
+    if (await oauthStore.get(tokenStorageKey))
         return true;
     return false;
 }
