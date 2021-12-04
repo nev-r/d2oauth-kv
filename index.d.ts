@@ -1,3 +1,4 @@
+import { BungieNetToken } from "d2oauth-base";
 import { HttpClient } from "bungie-api-ts/http";
 import "cross-fetch/dist/node-polyfill.js";
 export declare function createOauthHttpClientKV(apiKey: string, client_id: string, client_secret: string, kvFileLocation?: string, options?: {
@@ -28,3 +29,8 @@ export declare function createOauthHttpClientKV(apiKey: string, client_id: strin
     verbose?: boolean;
 }): HttpClient;
 export declare function setupTokenWithAuthCode(authorization_code: string, client_id: string, client_secret: string, kvFileLocation?: string): Promise<void>;
+export declare function injectExistingBungieNetToken(
+/** a valid existing token, which we'll now start refreshing through this instance */
+token: BungieNetToken, kvFileLocation?: string, 
+/** force this to be written into token storage as the new token, even if one already exists */
+forceOverwrite?: boolean): Promise<void>;
