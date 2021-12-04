@@ -42,3 +42,13 @@ forceOverwrite) {
     await oauthStore.set("tokenMeta", tokenMeta);
     await store.saveToDisk();
 }
+export async function isBungieNetTokenAlreadySet(kvFileLocation = `./db/d2oauth.json`) {
+    const oauthStore = new Keyv({
+        store: new KeyvFile({
+            filename: kvFileLocation,
+        }),
+    });
+    if (await oauthStore.get("tokenMeta"))
+        return true;
+    return false;
+}

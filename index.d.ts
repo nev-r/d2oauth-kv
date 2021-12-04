@@ -34,3 +34,4 @@ export declare function injectExistingBungieNetToken(
 token: BungieNetToken, kvFileLocation?: string, 
 /** force this to be written into token storage as the new token, even if one already exists */
 forceOverwrite?: boolean): Promise<void>;
+export declare function isBungieNetTokenAlreadySet(kvFileLocation?: string): Promise<boolean>;
