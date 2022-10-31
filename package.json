@@ -11,7 +11,7 @@
   "main": "./index.js",
   "dependencies": {
     "bungie-api-ts": "^4.13.0",
-    "d2oauth-base": "github:nev-r/d2oauth-base",
+    "d2oauth-base": "github:nev-r/d2oauth-base#nofetch",
     "httpclient": "github:nev-r/httpclient",
     "keyv": "^4.0.4",
     "keyv-file": "^0.2.0"
