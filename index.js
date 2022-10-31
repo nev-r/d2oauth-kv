@@ -1,7 +1,6 @@
 import Keyv from "keyv";
 import { KeyvFile } from "keyv-file";
 import { createOauthHttpClient, looksLikeBnetAuthToken, setupTokenWithAuthCode as stwac, } from "d2oauth-base";
-import "cross-fetch/dist/node-polyfill.js";
 const defaultPath = `./db/d2oauth.json`;
 const tokenStorageKey = "token";
 export function createOauthHttpClientKV(apiKey, client_id, client_secret, kvFileLocation = `./db/d2oauth.json`, options = {}) {
